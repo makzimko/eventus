@@ -4,9 +4,14 @@
  * @constructor
  */
 function Radio() {
+	// get new unique ID for object
+	this._cid = ++ arguments.callee.prototype.counter;
 	this._events = {};
+	this._listening = {};
 }
-Radio.prototype = {};
+Radio.prototype = {
+	counter: 0
+};
 
 /**
  * Add event listener
@@ -16,6 +21,19 @@ Radio.prototype = {};
 Radio.prototype.on = function(name, callback) {
 	this._events[name] = this._events[name] || [];
 	this._events[name].push(callback);
+};
+
+/**
+ * Add one time listener
+ * @param {string} name - event name
+ * @param {function} callback - function to call on this event
+ */
+Radio.prototype.once = function(name, callback) {
+	var self = this;
+	this.on(name, function once(data) {
+		callback.call(self, data);
+		self.off(name, once);
+	});
 };
 
 /**
