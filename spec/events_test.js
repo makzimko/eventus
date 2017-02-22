@@ -1,5 +1,5 @@
 describe('Eventus', function() {
-	var Eventus = require('../Eventus');
+	var Eventus = require('../eventus');
 	var obj;
 	var handlers = {
 		eventCallback: function() {

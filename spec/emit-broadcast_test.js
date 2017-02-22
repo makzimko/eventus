@@ -1,5 +1,5 @@
 describe('Eventus', function() {
-	var Eventus = require('../Eventus');
+	var Eventus = require('../eventus');
 	var obj_1,
 		obj_1_1, obj_1_1_1, obj_1_1_2,
 		obj_1_2, obj_1_2_1;

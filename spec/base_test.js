@@ -1,5 +1,5 @@
 describe('Eventus', function() {
-	var Eventus = require('../Eventus');
+	var Eventus = require('../eventus');
 	var obj_1, obj_2;
 
 	beforeEach(function(){
