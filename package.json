@@ -1,0 +1,14 @@
+{
+  "name": "radio-object",
+  "version": "0.0.1",
+  "description": "Eventful object that can everything",
+  "keywords": ["event", "object", "emit", "broadcast", "listener"],
+  "homepage": "https://github.com/makzimko/radio",
+  "license": "MIT",
+  "author": {
+    "name": "Maxim Tkachuk",
+    "email": "uakorn@gmail.com",
+    "url": "http://makzimko.info"
+  },
+  "main": "radio.js"
+}
