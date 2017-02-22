@@ -1,2 +1,2 @@
-# radio
-Custom implementation of Pub-Sub pattern
+# Eventus
+Eventful object that can everything
