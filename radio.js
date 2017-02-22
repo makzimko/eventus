@@ -75,6 +75,77 @@ Radio.prototype.trigger = function(name, data) {
 	}
 };
 
+/**
+ * Listen to event in another object
+ * @param {Radio} obj - object to listen
+ * @param {string} name - event name
+ * @param {function} callback - function to call on event
+ */
+Radio.prototype.listen = function(obj, name, callback) {
+	if (!obj || !obj.on) return;
+	var self = this;
+
+	var listeners = this._listening[obj._cid] || {};
+	listeners[name] = listeners[name] || [];
+
+	function listen(data) {
+		callback.call(this, obj, data);
+	}
+
+	obj.on(name, listen);
+
+	listeners[name].push({
+		callback: listen,
+		original: callback
+	});
+
+	this._listening[obj._cid] = listeners;
+};
+
+/**
+ * Remove listener from another object
+ * @param {Radio} obj - object to listen
+ * @param name - event name
+ * @param callback - function to remove
+ */
+Radio.prototype.unlisten = function(obj, name, callback) {
+	if (!obj || !obj.off) return;
+	var listeners = this._listening[obj._cid] || {};
+	listeners[name] = listeners[name] || [];
+
+	if (name && callback) {
+		var index = -1;
+		for (i = 0; i < listeners[name].length; i++) {
+			if (listeners[name][i].original == callback) {
+				index = i;
+			}
+		}
+
+		obj.off(name, listeners[name][index].callback);
+
+		if (index >= 0) {
+			listeners[name].splice(index, 1);
+		}
+		if (listeners[name].length === 0) {
+			listeners[name] = undefined;
+		}
+	} else if (name) {
+		for (i = 0; i < listeners[name].length; i++) {
+			obj.off(name, listeners[name][index].callback);
+		}
+		listeners[name] = undefined;
+	} else {
+		var events = Object.keys(listeners);
+		for (i = 0; i < events.length; i++) {
+			for (j = 0; j < listeners[events[i]].length; j++) {
+				obj.off(events[i], listeners[events[i]][j].callback);
+			}
+		}
+		listeners = undefined;
+	}
+	this._listening[obj._cid] = listeners;
+};
+
 Radio.prototype.constructor = Radio;
 // public
 module.exports = Radio;
