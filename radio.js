@@ -15,7 +15,7 @@ function Radio(options) {
 	this._child = [];
 
 	var attrs = Object.keys(options);
-	for (i = 0; i < attrs.length; i++) {
+	for (var i = 0; i < attrs.length; i++) {
 		var key = attrs[i];
 		this[key] = options[key];
 	}
@@ -75,13 +75,13 @@ Radio.prototype.off = function(name, callback) {
 
 /**
  * Trigger each listener for event
- * @param name
- * @param data
+ * @param name - event name
+ * @param data - event data
  */
 Radio.prototype.trigger = function(name, data) {
 	var listeners = this._events[name];
 	if (listeners) {
-		for (i = 0; i < listeners.length; i++) {
+		for (var i = 0; i < listeners.length; i++) {
 			listeners[i].call(this, data);
 		}
 	}
@@ -112,11 +112,11 @@ Radio.prototype.createChild = function(name, options) {
 
 /**
  * Remove child element
- * @param element
+ * @param {string|Radio} element
  */
 Radio.prototype.removeChild = function(element) {
 	var option = typeof element == 'string' ? 'name' : 'instance';
-	for (i = 0; i < this._child.length; i++) {
+	for (var i = 0; i < this._child.length; i++) {
 		if (this._child[i][option] == element) {
 			var obj = this._child[i];
 			delete this[obj.name];
@@ -133,12 +133,46 @@ Radio.prototype.removeChild = function(element) {
  */
 Radio.prototype.destroy = function() {
 	if (this._child.length) {
-		for (i = 0; i < this._child.length; i++) {
+		for (var i = 0; i < this._child.length; i++) {
 			this.removeChild(this._child[i].name);
 		}
 	}
 	this.trigger('destroy');
 	this.off();
+};
+
+/**
+ * Emit event to all parents
+ * @param {string} name - event name
+ * @param {object} data - event data
+ */
+Radio.prototype.emit = function(name, data, beginner) {
+	if (!beginner) {
+		beginner = this;
+	} else {
+		this.trigger(name, data, beginner);
+	}
+	if (this._parent) {
+		this._parent.emit(name, data, beginner);
+	}
+};
+
+/**
+ * Broadcast event to all children
+ * @param name
+ * @param data
+ */
+Radio.prototype.broadcast = function(name, data, beginner) {
+	if (!beginner) {
+		beginner = this;
+	} else {
+		this.trigger(name, data, beginner);
+	}
+	if (this._child.length) {
+		for (var i = 0; i < this._child.length; i++) {
+			this._child[i].instance.broadcast(name, data, beginner);
+		}
+	}
 };
 
 Radio.prototype.constructor = Radio;
