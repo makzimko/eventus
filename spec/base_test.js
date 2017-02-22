@@ -1,10 +1,10 @@
-describe('Radio', function() {
-	var Radio = require('../radio');
-	var radio_1, radio_2;
+describe('Eventus', function() {
+	var Eventus = require('../Eventus');
+	var obj_1, obj_2;
 
 	beforeEach(function(){
-		radio_1 = new Radio();
-		radio_2 = new Radio({
+		obj_1 = new Eventus();
+		obj_2 = new Eventus({
 			sayHello: function() {
 				return 'Hello World!';
 			}
@@ -12,19 +12,19 @@ describe('Radio', function() {
 	});
 
 	it('should create instance of Radio', function() {
-		expect(radio_1 instanceof Radio).toBe(true);
+		expect(obj_1 instanceof Eventus).toBe(true);
 	});
 
 	it('should create instance of Radio', function() {
-		expect(radio_2 instanceof Radio).toBe(true);
+		expect(obj_2 instanceof Eventus).toBe(true);
 	});
 
 	it('should have unique cid', function() {
-		expect(radio_1._cid).not.toEqual(radio_2._cid);
+		expect(obj_1._cid).not.toEqual(obj_2._cid);
 	});
 
 	it('should have extended options', function() {
-		var result = radio_2.sayHello();
+		var result = obj_2.sayHello();
 		expect(result).toEqual('Hello World!');
 	});
 });

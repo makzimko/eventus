@@ -1,44 +1,44 @@
-describe('Radio', function() {
-	var Radio = require('../radio');
-	var radio_1,
-		radio_1_1, radio_1_1_1, radio_1_1_2,
-		radio_1_2, radio_1_2_1;
+describe('Eventus', function() {
+	var Eventus = require('../Eventus');
+	var obj_1,
+		obj_1_1, obj_1_1_1, obj_1_1_2,
+		obj_1_2, obj_1_2_1;
 	var spy_1,
 		spy_1_1, spy_1_1_1, spy_1_1_2,
 		spy_1_2, spy_1_2_1;
 
 	beforeEach(function() {
-		radio_1 = new Radio();
+		obj_1 = new Eventus();
 		spy_1 = jasmine.createSpy('spy_1');
-		radio_1.on('event', spy_1);
+		obj_1.on('event', spy_1);
 
-		radio_1_1 = radio_1.createChild('radio_1_1');
+		obj_1_1 = obj_1.createChild('obj_1_1');
 		spy_1_1 = jasmine.createSpy('spy_1_1');
-		radio_1_1.on('event', spy_1_1);
+		obj_1_1.on('event', spy_1_1);
 
-		radio_1_1_1 = radio_1_1.createChild('radio_1_1_1');
+		obj_1_1_1 = obj_1_1.createChild('obj_1_1_1');
 		spy_1_1_1 = jasmine.createSpy('spy_1_1_1');
-		radio_1_1_1.on('event', spy_1_1_1);
+		obj_1_1_1.on('event', spy_1_1_1);
 
-		radio_1_1_2 = radio_1_1.createChild('radio_1_1_2');
+		obj_1_1_2 = obj_1_1.createChild('obj_1_1_2');
 		spy_1_1_2 = jasmine.createSpy('spy_1_1_2');
-		radio_1_1_2.on('event', spy_1_1_2);
+		obj_1_1_2.on('event', spy_1_1_2);
 
-		radio_1_2 = radio_1.createChild('radio_1_2');
+		obj_1_2 = obj_1.createChild('obj_1_2');
 		spy_1_2 = jasmine.createSpy('spy_1_2');
-		radio_1_2.on('event', spy_1_2);
+		obj_1_2.on('event', spy_1_2);
 
-		radio_1_2_1 = radio_1_2.createChild('radio_1_2_1');
+		obj_1_2_1 = obj_1_2.createChild('obj_1_2_1');
 		spy_1_2_1 = jasmine.createSpy('spy_1_2_1');
-		radio_1_2_1.on('event', spy_1_2_1);
+		obj_1_2_1.on('event', spy_1_2_1);
 	});
 
 	describe('should emit event to parent', function() {
 		beforeEach(function() {
-			radio_1_1.emit('event');
+			obj_1_1.emit('event');
 		});
 
-		it('radio_1', function() {
+		it('obj_1', function() {
 			expect(spy_1).toHaveBeenCalled();
 		});
 
@@ -47,15 +47,15 @@ describe('Radio', function() {
 				expect(spy_1_1).not.toHaveBeenCalled();
 			});
 
-			it('sibling radio_1_2', function() {
+			it('sibling obj_1_2', function() {
 				expect(spy_1_2).not.toHaveBeenCalled();
 			});
 
 			describe('child', function() {
-				it('radio_1_1_1', function() {
+				it('obj_1_1_1', function() {
 					expect(spy_1_1_1).not.toHaveBeenCalled();
 				});
-				it('radio_1_1_2', function() {
+				it('obj_1_1_2', function() {
 					expect(spy_1_1_2).not.toHaveBeenCalled();
 				});
 			});
@@ -68,14 +68,14 @@ describe('Radio', function() {
 
 	describe('should deep emit event to all parents', function() {
 		beforeEach(function() {
-			radio_1_1_1.emit('event');
+			obj_1_1_1.emit('event');
 		});
 
-		it('radio_1_1', function() {
+		it('obj_1_1', function() {
 			expect(spy_1_1).toHaveBeenCalled();
 		});
 
-		it('radio_1', function(){
+		it('obj_1', function(){
 			expect(spy_1).toHaveBeenCalled();
 		});
 
@@ -89,11 +89,11 @@ describe('Radio', function() {
 			});
 
 			describe('others', function() {
-				it('radio_1_2', function() {
+				it('obj_1_2', function() {
 					expect(spy_1_2).not.toHaveBeenCalled();
 				});
 
-				it('radio_1_2_1', function() {
+				it('obj_1_2_1', function() {
 					expect(spy_1_2_1).not.toHaveBeenCalled();
 				});
 			});
@@ -102,13 +102,13 @@ describe('Radio', function() {
 
 	describe('should broadcats event to child', function() {
 		beforeEach(function() {
-			radio_1_1.broadcast('event');
+			obj_1_1.broadcast('event');
 		});
 
-		it('radio_1_1_1', function() {
+		it('obj_1_1_1', function() {
 			expect(spy_1_1_1).toHaveBeenCalled();
 		});
-		it('radio_1_1_2', function() {
+		it('obj_1_1_2', function() {
 			expect(spy_1_1_2).toHaveBeenCalled();
 		});
 
@@ -129,18 +129,18 @@ describe('Radio', function() {
 
 	describe('should deep broadcast to child', function() {
 		beforeEach(function() {
-			radio_1.broadcast('event');
+			obj_1.broadcast('event');
 		});
 
-		it('radio_1_1_1', function() {
+		it('obj_1_1_1', function() {
 			expect(spy_1_1_1).toHaveBeenCalled();
 		});
 
-		it('radio_1_1_2', function() {
+		it('obj_1_1_2', function() {
 			expect(spy_1_1_2).toHaveBeenCalled();
 		});
 
-		it('radio_1_2_1', function() {
+		it('obj_1_2_1', function() {
 			expect(spy_1_2_1).toHaveBeenCalled();
 		});
 

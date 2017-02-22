@@ -1,6 +1,6 @@
-describe('Radio', function() {
-	var Radio = require('../radio');
-	var radio;
+describe('Eventus', function() {
+	var Eventus = require('../Eventus');
+	var obj;
 	var handlers = {
 		eventCallback: function() {
 			console.log('executed');
@@ -8,37 +8,37 @@ describe('Radio', function() {
 	};
 
 	beforeEach(function() {
-		radio = new Radio();
+		obj = new Eventus();
 	});
 
 	describe('should trigger', function() {
 		it('events', function() {
 			var spy = jasmine.createSpy();
-			radio.on('event', spy);
-			radio.trigger('event');
-			radio.trigger('event');
+			obj.on('event', spy);
+			obj.trigger('event');
+			obj.trigger('event');
 			expect(spy).toHaveBeenCalledTimes(2);
 		});
 
 		it('event one time', function() {
 			var spy = jasmine.createSpy();
-			radio.once('event', spy);
-			radio.trigger('event');
-			radio.trigger('event');
+			obj.once('event', spy);
+			obj.trigger('event');
+			obj.trigger('event');
 			expect(spy).toHaveBeenCalledTimes(1);
 		});
 
 		it('event with specified options', function() {
 			var spy = jasmine.createSpy();
-			radio.on('event', spy);
-			radio.trigger('event', 123);
+			obj.on('event', spy);
+			obj.trigger('event', 123);
 			expect(spy).toHaveBeenCalledWith(123);
 		});
 
 		it('on destroy', function() {
 			var spy = jasmine.createSpy();
-			radio.on('destroy', spy);
-			radio.destroy();
+			obj.on('destroy', spy);
+			obj.destroy();
 			expect(spy).toHaveBeenCalled();
 		});
 	});
@@ -50,16 +50,16 @@ describe('Radio', function() {
 			spy1 = jasmine.createSpy('spy1');
 			spy2 = jasmine.createSpy('spy2');
 			spy3 = jasmine.createSpy('apy3');
-			radio.on('event', spy1);
-			radio.on('event', spy2);
-			radio.on('other:event', spy3);
+			obj.on('event', spy1);
+			obj.on('event', spy2);
+			obj.on('other:event', spy3);
 		});
 
 		describe('for specified callback', function() {
 			beforeEach(function(){
-				radio.off('event', spy1);
-				radio.trigger('event');
-				radio.trigger('other:event');
+				obj.off('event', spy1);
+				obj.trigger('event');
+				obj.trigger('other:event');
 			});
 
 			it('spy1', function() {
@@ -77,9 +77,9 @@ describe('Radio', function() {
 
 		describe('for specified event', function() {
 			beforeEach(function() {
-				radio.off('event');
-				radio.trigger('event');
-				radio.trigger('other:event');
+				obj.off('event');
+				obj.trigger('event');
+				obj.trigger('other:event');
 			});
 			it('spy1', function() {
 				expect(spy1).not.toHaveBeenCalled();
@@ -94,9 +94,9 @@ describe('Radio', function() {
 
 		describe('for all events', function() {
 			beforeEach(function() {
-				radio.off();
-				radio.trigger('event');
-				radio.trigger('other:event');
+				obj.off();
+				obj.trigger('event');
+				obj.trigger('other:event');
 			});
 
 			it('spy1', function() {
@@ -113,8 +113,8 @@ describe('Radio', function() {
 		});
 
 		it('on destroy', function() {
-			radio.destroy();
-			expect(radio._events).toEqual({});
+			obj.destroy();
+			expect(obj._events).toEqual({});
 		});
 	})
 
