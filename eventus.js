@@ -1,10 +1,10 @@
 /**
- * Radio
+ * Eventus
  *
  * @param {object} options
  * @constructor
  */
-function Radio(options) {
+function Eventus(options) {
 	options = options || {};
 	// get new unique ID for object
 	this._cid = ++ arguments.callee.prototype.counter;
@@ -21,7 +21,7 @@ function Radio(options) {
 	}
 
 }
-Radio.prototype = {
+Eventus.prototype = {
 	counter: 0
 };
 
@@ -30,7 +30,7 @@ Radio.prototype = {
  * @param {string} name - event name
  * @param {function} callback - function to call on this event
  */
-Radio.prototype.on = function(name, callback) {
+Eventus.prototype.on = function(name, callback) {
 	this._events[name] = this._events[name] || [];
 	this._events[name].push(callback);
 };
@@ -40,7 +40,7 @@ Radio.prototype.on = function(name, callback) {
  * @param {string} name - event name
  * @param {function} callback - function to call on this event
  */
-Radio.prototype.once = function(name, callback) {
+Eventus.prototype.once = function(name, callback) {
 	var self = this;
 	this.on(name, function once(data) {
 		callback.call(self, data);
@@ -53,7 +53,7 @@ Radio.prototype.once = function(name, callback) {
  * @param {string} name - event name
  * @param {function} callback - function to remove
  */
-Radio.prototype.off = function(name, callback) {
+Eventus.prototype.off = function(name, callback) {
 	if (name) {
 		if (this._events[name]) {
 			if (callback) {
@@ -78,7 +78,7 @@ Radio.prototype.off = function(name, callback) {
  * @param name - event name
  * @param data - event data
  */
-Radio.prototype.trigger = function(name, data) {
+Eventus.prototype.trigger = function(name, data) {
 	var listeners = this._events[name];
 	var args = Array.prototype.splice.call(arguments, 1);
 	if (listeners) {
@@ -92,13 +92,13 @@ Radio.prototype.trigger = function(name, data) {
  * Create child element
  * @param {string} name
  * @param {object} options
- * @returns {Radio}
+ * @returns {Eventus}
  */
-Radio.prototype.createChild = function(name, options) {
+Eventus.prototype.createChild = function(name, options) {
 	if (!name) { throw new Error('Argument name is required'); }
 	if (this[name]) { throw new Error('Child element with name ' + name + ' already exists'); }
 
-	var newObj = new Radio(options);
+	var newObj = new Eventus(options);
 	newObj._parent = this;
 
 	this._child.push({
@@ -113,9 +113,9 @@ Radio.prototype.createChild = function(name, options) {
 
 /**
  * Remove child element
- * @param {string|Radio} element
+ * @param {string|Eventus} element
  */
-Radio.prototype.removeChild = function(element) {
+Eventus.prototype.removeChild = function(element) {
 	var option = typeof element == 'string' ? 'name' : 'instance';
 	for (var i = 0; i < this._child.length; i++) {
 		if (this._child[i][option] == element) {
@@ -132,7 +132,7 @@ Radio.prototype.removeChild = function(element) {
 /**
  * Destroy object
  */
-Radio.prototype.destroy = function() {
+Eventus.prototype.destroy = function() {
 	if (this._child.length) {
 		for (var i = 0; i < this._child.length; i++) {
 			this.removeChild(this._child[i].name);
@@ -147,7 +147,7 @@ Radio.prototype.destroy = function() {
  * @param {string} name - event name
  * @param {object} data - event data
  */
-Radio.prototype.emit = function(name, data, beginner) {
+Eventus.prototype.emit = function(name, data, beginner) {
 	if (!beginner) {
 		beginner = this;
 	} else {
@@ -163,7 +163,7 @@ Radio.prototype.emit = function(name, data, beginner) {
  * @param name
  * @param data
  */
-Radio.prototype.broadcast = function(name, data, beginner) {
+Eventus.prototype.broadcast = function(name, data, beginner) {
 	if (!beginner) {
 		beginner = this;
 	} else {
@@ -176,6 +176,6 @@ Radio.prototype.broadcast = function(name, data, beginner) {
 	}
 };
 
-Radio.prototype.constructor = Radio;
+Eventus.prototype.constructor = Eventus;
 // public
-module.exports = Radio;
+module.exports = Eventus;

@@ -1,5 +1,5 @@
 {
-  "name": "radio-object",
+  "name": "eventus",
   "version": "0.0.1",
   "description": "Eventful object that can everything",
   "keywords": [
@@ -9,14 +9,14 @@
     "broadcast",
     "listener"
   ],
-  "homepage": "https://github.com/makzimko/radio",
+  "homepage": "https://github.com/makzimko/eventus",
   "license": "MIT",
   "author": {
     "name": "Maxim Tkachuk",
     "email": "uakorn@gmail.com",
     "url": "http://makzimko.info"
   },
-  "main": "radio.js",
+  "main": "eventus.js",
   "scripts": {
     "test": "jasmine"
   },
