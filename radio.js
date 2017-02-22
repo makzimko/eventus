@@ -80,9 +80,10 @@ Radio.prototype.off = function(name, callback) {
  */
 Radio.prototype.trigger = function(name, data) {
 	var listeners = this._events[name];
+	var args = Array.prototype.splice.call(arguments, 1);
 	if (listeners) {
 		for (var i = 0; i < listeners.length; i++) {
-			listeners[i].call(this, data);
+			listeners[i].apply(this, args);
 		}
 	}
 };
@@ -123,7 +124,7 @@ Radio.prototype.removeChild = function(element) {
 			this._child.splice(i, 1);
 
 			this.trigger('child:remove', obj.name, obj.instance);
-			obj.destroy();
+			obj.instance.destroy();
 		}
 	}
 };

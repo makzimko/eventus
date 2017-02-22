@@ -2,7 +2,13 @@
   "name": "radio-object",
   "version": "0.0.1",
   "description": "Eventful object that can everything",
-  "keywords": ["event", "object", "emit", "broadcast", "listener"],
+  "keywords": [
+    "event",
+    "object",
+    "emit",
+    "broadcast",
+    "listener"
+  ],
   "homepage": "https://github.com/makzimko/radio",
   "license": "MIT",
   "author": {
@@ -10,5 +16,11 @@
     "email": "uakorn@gmail.com",
     "url": "http://makzimko.info"
   },
-  "main": "radio.js"
+  "main": "radio.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "devDependencies": {
+    "jasmine": "^2.5.3"
+  }
 }
