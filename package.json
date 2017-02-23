@@ -16,7 +16,7 @@
     "email": "uakorn@gmail.com",
     "url": "http://makzimko.info"
   },
-  "main": "eventus.js",
+  "main": "index.js",
   "scripts": {
     "test": "jasmine"
   },
