@@ -35,6 +35,17 @@ describe('Eventus', function() {
 			expect(spy).toHaveBeenCalledWith(123);
 		});
 
+		it('events from options', function() {
+			var spy = jasmine.createSpy();
+			var options = {
+				events: {
+					init: spy
+				}
+			};
+			var obj_2 = new Eventus(options);
+			expect(spy).toHaveBeenCalledWith(options);
+		});
+
 		it('on destroy', function() {
 			var spy = jasmine.createSpy();
 			obj.on('destroy', spy);

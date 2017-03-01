@@ -12,6 +12,7 @@ var Eventus = require('eventus');
 var foo = new Eventus();
 ```
 Also you can pass `options` object that will extend simple Eventus object and after taht you can use it as object properties (methods).
+After creating `init` event will be triggered.
 ```javascript
 var bar = new Eventus({
 	baz: 'qux'
@@ -19,11 +20,21 @@ var bar = new Eventus({
 ```
 ### Event listening
 Each Eventus object has amount of built-in events and may has own custom events.
+Events can be defined on options and by using `.on()` and `.once()` methods as well.
 ```javascript
-var foo = new Eventus();
-foo.on('bar', console.log);
+var foo = new Eventus({
+    events: {
+        bar: console.log
+    }
+});
+
 foo.trigger('bar', 'Hello World!');
 // output in console: Hello World!
+
+foo.on('baz', console.log);
+foo.trigget('baz', 'Hello again');
+// output in console: Hello again
+
 ```
 For one-time listener you can use `.once()` instead of `.on()`.
 

@@ -14,16 +14,37 @@ function Eventus(options) {
 	this._parent = null;
 	this._child = [];
 
-	var attrs = Object.keys(options);
-	for (var i = 0; i < attrs.length; i++) {
-		var key = attrs[i];
-		this[key] = options[key];
-	}
+	assignOptions(this, options);
 
+	this.trigger('init', options);
 }
 Eventus.prototype = {
 	counter: 0
 };
+
+/**
+ * Assign options to object
+ * @param {Eventus} obj
+ * @param {object} options
+ * @private
+ */
+function assignOptions(obj, options) {
+	var attrs = Object.keys(options);
+	for (var i = 0; i < attrs.length; i++) {
+		var key = attrs[i];
+
+		switch (key) {
+			case 'events':
+				var events = Object.keys(options[key]);
+				for (var j = 0; j < events.length; j++) {
+					obj.on(events[j], options[key][events[j]]);
+				}
+				break;
+			default:
+				obj[key] = options[key];
+		}
+	}
+}
 
 /**
  * Add event listener
