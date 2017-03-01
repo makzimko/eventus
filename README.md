@@ -98,6 +98,11 @@ foo.broadcast('qux', { some: 'options' });
 // this will trigger 'bat' event on foo & bar
 baz.emit('bat', { some: 'options'});
 ```
+## List of Eventus modules
+
+[Full list of modules](modules/)
+
+* [Observer](modules/observer.md)
 
 ## License
 Eventus is published under the [MIT License](https://opensource.org/licenses/MIT).
