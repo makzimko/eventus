@@ -146,7 +146,7 @@ Eventus.prototype.createChild = function(name, options) {
 	});
 	this[name] = newObj;
 
-	_proto.trigger.call(this, 'child:add', name, newObj)
+	_proto.trigger.call(this, 'child:add', name, newObj);
 	return newObj;
 };
 

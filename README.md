@@ -114,6 +114,7 @@ baz.emit('bat', { some: 'options'});
 [Full list of modules](modules/)
 
 * [Observer](modules/observer.md)
+* [Radio](modules/radio.md)
 
 ## License
 Eventus is published under the [MIT License](https://opensource.org/licenses/MIT).
