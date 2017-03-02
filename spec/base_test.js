@@ -27,4 +27,11 @@ describe('Eventus', function() {
 		var result = obj_2.sayHello();
 		expect(result).toEqual('Hello World!');
 	});
+
+	it('should block specific methods', function() {
+		var obj_3 = new Eventus({
+			_block: ['trigger']
+		});
+		expect(obj_3.trigger).toThrow();
+	})
 });

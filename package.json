@@ -1,6 +1,6 @@
 {
   "name": "eventus",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Eventful object that can everything",
   "keywords": [
     "event",
@@ -18,9 +18,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "build": "jasmine && npm run concat && npm run compress",
+    "concat": "browserify index.js > dist/eventus.js -s Eventus",
+    "compress": "uglifyjs dist/eventus.js > dist/eventus.min.js --compress --source-map dist/eventus.js.map"
   },
   "devDependencies": {
-    "jasmine": "^2.5.3"
+    "browserify": "^14.1.0",
+    "jasmine": "^2.5.3",
+    "uglify-js": "^2.8.5"
   }
 }

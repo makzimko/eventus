@@ -1,4 +1,4 @@
 language: node_js
 php:
 - 4
-script: jasmine
+script: npm run build

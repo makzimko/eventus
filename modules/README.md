@@ -5,6 +5,7 @@ Documentation of Eventus is [here](../README.md).
 ## Modules list
 
 * [Observer](observer.md)
+* [Radio](radio.md)
 
 
 ## License

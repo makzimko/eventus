@@ -1,3 +1,4 @@
+var _proto;
 /**
  * Eventus
  *
@@ -7,7 +8,7 @@
 function Eventus(options) {
 	options = options || {};
 	// get new unique ID for object
-	this._cid = ++ arguments.callee.prototype.counter;
+	this._cid = ++ _proto.counter;
 	this._events = {};
 	this._listening = {};
 
@@ -16,7 +17,7 @@ function Eventus(options) {
 
 	assignOptions(this, options);
 
-	this.trigger('init', options);
+	_proto.trigger.call(this, 'init', options);
 }
 Eventus.prototype = {
 	counter: 0
@@ -37,12 +38,29 @@ function assignOptions(obj, options) {
 			case 'events':
 				var events = Object.keys(options[key]);
 				for (var j = 0; j < events.length; j++) {
-					obj.on(events[j], options[key][events[j]]);
+					_proto.on.call(obj, events[j], options[key][events[j]]);
+				}
+				break;
+			case '_block':
+				var blockedMethods = options[key];
+				for (var j = 0; j < blockedMethods.length; j++) {
+					obj[blockedMethods[j]] = throwError(blockedMethods[j]);
 				}
 				break;
 			default:
 				obj[key] = options[key];
 		}
+	}
+}
+
+/**
+ * Throw error on calling blocked method
+ * @param {string} name - method name
+ * @returns {Function}
+ */
+function throwError(name) {
+	return function() {
+		throw new Error('Can\'t call blocked method ' + name);
 	}
 }
 
@@ -63,9 +81,9 @@ Eventus.prototype.on = function(name, callback) {
  */
 Eventus.prototype.once = function(name, callback) {
 	var self = this;
-	this.on(name, function once(data) {
+	_proto.on.call(this, name, function once(data) {
 		callback.call(self, data);
-		self.off(name, once);
+		_proto.off.call(self, name, once);
 	});
 };
 
@@ -119,7 +137,7 @@ Eventus.prototype.createChild = function(name, options) {
 	if (!name) { throw new Error('Argument name is required'); }
 	if (this[name]) { throw new Error('Child element with name ' + name + ' already exists'); }
 
-	var newObj = new Eventus(options);
+	var newObj = new this.constructor(options);
 	newObj._parent = this;
 
 	this._child.push({
@@ -128,7 +146,7 @@ Eventus.prototype.createChild = function(name, options) {
 	});
 	this[name] = newObj;
 
-	this.trigger('child:add', name, newObj);
+	_proto.trigger.call(this, 'child:add', name, newObj);
 	return newObj;
 };
 
@@ -144,8 +162,8 @@ Eventus.prototype.removeChild = function(element) {
 			delete this[obj.name];
 			this._child.splice(i, 1);
 
-			this.trigger('child:remove', obj.name, obj.instance);
-			obj.instance.destroy();
+			_proto.trigger.call(this, 'child:remove', obj.name, obj.instance);
+			_proto.destroy.call(obj.instance);
 		}
 	}
 };
@@ -156,11 +174,11 @@ Eventus.prototype.removeChild = function(element) {
 Eventus.prototype.destroy = function() {
 	if (this._child.length) {
 		for (var i = 0; i < this._child.length; i++) {
-			this.removeChild(this._child[i].name);
+			_proto.removeChild.call(this, this._child[i].name);
 		}
 	}
-	this.trigger('destroy');
-	this.off();
+	_proto.trigger.call(this, 'destroy');
+	_proto.off.call(this);
 };
 
 /**
@@ -172,10 +190,10 @@ Eventus.prototype.emit = function(name, data, beginner) {
 	if (!beginner) {
 		beginner = this;
 	} else {
-		this.trigger(name, data, beginner);
+		_proto.trigger.call(this, name, data, beginner);
 	}
 	if (this._parent) {
-		this._parent.emit(name, data, beginner);
+		_proto.emit.call(this._parent, name, data, beginner);
 	}
 };
 
@@ -188,15 +206,17 @@ Eventus.prototype.broadcast = function(name, data, beginner) {
 	if (!beginner) {
 		beginner = this;
 	} else {
-		this.trigger(name, data, beginner);
+		_proto.trigger.call(this, name, data, beginner);
 	}
 	if (this._child.length) {
 		for (var i = 0; i < this._child.length; i++) {
-			this._child[i].instance.broadcast(name, data, beginner);
+			_proto.broadcast.call(this._child[i].instance, name, data, beginner);
 		}
 	}
 };
 
 Eventus.prototype.constructor = Eventus;
+_proto = Eventus.prototype;
+
 // public
 module.exports = Eventus;

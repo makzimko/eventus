@@ -1,4 +1,4 @@
-# Eventus [![Build Status](https://api.travis-ci.org/makzimko/eventus.svg?branch=master)](https://api.travis-ci.org/makzimko/eventus.svg?branch=tests)
+# Eventus [![Current version](https://img.shields.io/npm/v/eventus.svg)](https://img.shields.io/npm/v/eventus.svg) [![Build status](https://img.shields.io/travis/makzimko/eventus.svg)](https://img.shields.io/travis/makzimko/eventus.svg)
 Eventful object that can everything.
 It's a simple and rapid realization of Pub-Sub, Mediator & Observer patterns.
 
@@ -114,6 +114,7 @@ baz.emit('bat', { some: 'options'});
 [Full list of modules](modules/)
 
 * [Observer](modules/observer.md)
+* [Radio](modules/radio.md)
 
 ## License
 Eventus is published under the [MIT License](https://opensource.org/licenses/MIT).
