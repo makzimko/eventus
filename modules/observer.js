@@ -1,4 +1,8 @@
+var _proto;
+
 function init(Eventus) {
+	_proto = Eventus.prototype;
+
 	Eventus.prototype.listen = listen;
 	Eventus.prototype.unlisten = unlisten;
 	Eventus.prototype._destroyListening = _destroyListening;
@@ -28,7 +32,7 @@ var listen = function(obj, name, callback) {
 			callback: this._emitterDestroyer.bind(this, obj._cid),
 			original: this._emitterDestroyer.bind(this, obj._cid)
 		});
-		obj.on('destroy', listeners['destroy'][0].callback);
+		_proto.on.call(obj, 'destroy', listeners['destroy'][0].callback);
 	}
 	listeners[name] = listeners[name] || [];
 
@@ -38,7 +42,7 @@ var listen = function(obj, name, callback) {
 		callback.apply(this, data);
 	}
 
-	obj.on(name, listen);
+	_proto.on.call(obj, name, listen);
 
 	listeners[name].push({
 		callback: listen,
@@ -70,7 +74,7 @@ var unlisten = function(obj, name, callback) {
 			}
 		}
 
-		obj.off(name, listeners[name][index].callback);
+		_proto.off.call(obj, name, listeners[name][index].callback);
 
 		if (index >= 0) {
 			listeners[name].splice(index, 1);
@@ -81,14 +85,14 @@ var unlisten = function(obj, name, callback) {
 	} else if (name) {
 		var events = Object.keys(listeners[name]);
 		for (i = 0; i < events.length; i++) {
-			obj.off(name, listeners[name][events[i]].callback);
+			_proto.off.call(obj, name, listeners[name][events[i]].callback);
 		}
 		listeners[name] = undefined;
 	} else {
 		var events = Object.keys(listeners);
 		for (i = 0; i < events.length; i++) {
 			for (j = 0; j < listeners[events[i]].length; j++) {
-				obj.off(events[i], listeners[events[i]][j].callback);
+				_proto.off.call(obj, events[i], listeners[events[i]][j].callback);
 			}
 		}
 		listeners = undefined;
@@ -108,7 +112,8 @@ function bindDestroyer(obj) {
 			return;
 		}
 	}
-	obj.on('destroy', obj._destroyListening);
+
+	_proto.on.call(obj, 'destroy', obj._destroyListening);
 }
 
 var _emitterDestroyer = function(cid) {
@@ -124,7 +129,7 @@ var _destroyListening = function() {
 	var listening = this._listening;
 	var objects = Object.keys(listening);
 	for (var i = 0; i < objects.length; i++) {
-		this.unlisten(listening[objects[i]]._obj);
+		_proto.unlisten.call(this, listening[objects[i]]._obj);
 	}
 };
 
