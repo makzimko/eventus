@@ -18,7 +18,6 @@ function init(Eventus) {
  */
 var listen = function(obj, name, callback) {
 	if (!obj || !obj.on) return;
-	var self = this;
 
 	var listeners;
 	if (this._listening[obj._cid]) {

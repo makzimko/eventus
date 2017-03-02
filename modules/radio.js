@@ -57,7 +57,7 @@ var RadioPrototype = {
  */
 RadioPrototype.channel = function(name) {
     var channel = this[name];
-    if (channel && channel instanceof this.constructor == false) {
+    if (channel && channel instanceof this.constructor === false) {
         throw new Error('Cant get channel ' + name + '. Name is reserved');
     } else if (!channel) {
         this[name] = channel = _proto.createChild.call(this, name, ChannelPrototype);
